@@ -3,6 +3,8 @@ import { Dimensions, Image, Text } from "react-native";
 import styled from "styled-components";
 import * as Actions from "../actions";
 import { connect } from "react-redux";
+// import Player1Symbol from "./assets/O.png";
+// import Player2Symbol from "./assets/X.png";
 
 const { width, height } = Dimensions.get("window");
 

@@ -1,9 +1,8 @@
 import React from "react";
-import { Dimensions, View } from "react-native";
+import { Dimensions } from "react-native";
 import styled from "styled-components";
 import Board from "./Board";
 import { connect } from "react-redux";
-import restart from "../assets/restart.png";
 import * as Actions from '../actions'
 
 const { width, height } = Dimensions.get("window");
@@ -61,7 +60,6 @@ class Home extends React.Component {
       <Container>
         <TopMessageContainer>
           <Message>
-            {console.log(this.props.gridLock)}
             {this.props.gridLock
               ? "Whoops! Grid Lock!"
               : this.props.winner === null
@@ -73,10 +71,9 @@ class Home extends React.Component {
               : "O won"}
           </Message>
         </TopMessageContainer>
-        <Board />
-        
+        <Board />        
         {this.props.winner !== null || this.props.gridLock ? (
-          <RestartButton onPress={this.resetState} activeOpacity={0.5}>
+          <RestartButton onPress={this.handleStateReset} activeOpacity={0.5}>
             <Restart>new game</Restart>
           </RestartButton>
         ) : (
@@ -86,7 +83,7 @@ class Home extends React.Component {
     );
   }
 
-  resetState = () => {
+  handleStateReset = () => {
     this.props.dispatch(Actions.resetState())
   }
 

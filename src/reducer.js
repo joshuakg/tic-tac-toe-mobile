@@ -1,8 +1,8 @@
 import * as actions from "./actions.js";
 import { Settings } from "react-native";
 import _ from "lodash";
-import Player1Symbol from "./assets/O.png";
-import Player2Symbol from "./assets/X.png";
+let Player2Symbol = {}
+let Player1Symbol = {}
 
 const initialState = {
   turn: 0,
@@ -73,7 +73,6 @@ export const MainReducer = (state = initialState, action) => {
     case actions.GRID_LOCK:{
       let newState = clone(state)
       newState.gridLock = true
-      console.log(newState)
       return newState
     }
     case actions.RESET_STATE: {

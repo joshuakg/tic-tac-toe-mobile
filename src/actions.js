@@ -19,7 +19,7 @@ export const playerTurn = (index, turn) => {
 };
 
 export const parseCombinations = () => {
-  return (dispatch, getState) => {
+  return (dispatch, getState) => {    
     let state = getState();
     let board = state.board;
     let length = Math.sqrt(board.length);
@@ -49,7 +49,7 @@ export const parseCombinations = () => {
 };
 
 export const checkWinner = combinations => {
-  return (dispatch, getState) => {    
+  return (dispatch, getState) => {
     let arrays = [];
     for (let i = 0; i < combinations.length; i++) {
       let tempArray = _.map(combinations[i], n => {
@@ -64,8 +64,10 @@ export const checkWinner = combinations => {
     for (let i = 0; i < arrays.length; i++) {          
       if (_.sum(arrays[i]) === 0){
         dispatch({type: O_WIN})
+        return
       } else if (_.sum(arrays[i]) === 3){
         dispatch({type: X_WIN})
+        return
       }
     }
     let allPos = true
