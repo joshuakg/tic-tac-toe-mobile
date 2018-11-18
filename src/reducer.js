@@ -1,8 +1,5 @@
 import * as actions from "./actions.js";
-import { Settings } from "react-native";
 import _ from "lodash";
-let Player2Symbol = {}
-let Player1Symbol = {}
 
 const initialState = {
   turn: 0,
