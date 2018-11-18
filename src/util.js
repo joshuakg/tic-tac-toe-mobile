@@ -77,5 +77,6 @@ export const checkDiagonal = board => {
 };
 
 export const checkForGridlock = board => {
-  if (!_.includes(board, null)) return true;
-}
+  if (_.includes(board, null)) return false;
+  return true;
+};
