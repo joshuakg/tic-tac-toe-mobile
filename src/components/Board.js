@@ -57,9 +57,9 @@ class Board extends React.Component {
           return (
             <Grid
               onPress={this.dispatchPlayerAction}
-              activeOpacity={1}
-              key={index}              
-              value={content.value}
+              activeOpacity={content === null ? 0 : 1}
+              key={index}
+              value={content}
               index={index}
             />
           );
@@ -72,8 +72,9 @@ class Board extends React.Component {
     );
   }
 
-  dispatchPlayerAction = (index) => {
-    const { turn, dispatch } = this.props;
+  dispatchPlayerAction = index => {
+    const { turn, dispatch, board } = this.props;
+    if (board[index] !== null) return;
     dispatch(Actions.playerTurn(index, turn));
   };
 }
@@ -82,7 +83,6 @@ const stateToProps = state => {
   return {
     board: state.board,
     turn: state.turn,
-    winner: state.winner
   };
 };
 

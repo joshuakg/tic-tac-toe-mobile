@@ -7,13 +7,9 @@ export const O_WIN = "O_WIN";
 export const GRID_LOCK = "GRID_LOCK"
 export const RESET_STATE = 'RESET_STATE'
 
-export const playerTurn = (index, turn) => {
-  return (dispatch, getState) => {
-    let info = {
-      index: index,
-      value: turn
-    };
-    dispatch({ type: PLAYER_TURN, info });
+export const playerTurn = (index) => {
+  return (dispatch) => {
+    dispatch({ type: PLAYER_TURN, index });
     dispatch(parseCombinations());
   };
 };
@@ -49,12 +45,12 @@ export const parseCombinations = () => {
 };
 
 export const checkWinner = combinations => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     let arrays = [];
     for (let i = 0; i < combinations.length; i++) {
       let tempArray = _.map(combinations[i], n => {
-        if (n.value !== null) {
-          return n.value;
+        if (n !== null) {
+          return n;
         } else {
           return -10;
         }
@@ -81,7 +77,7 @@ export const checkWinner = combinations => {
 };
 
 export const resetState =() => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({type: RESET_STATE})
   }  
 }

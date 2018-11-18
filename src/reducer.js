@@ -7,42 +7,15 @@ let Player1Symbol = {}
 const initialState = {
   turn: 0,
   board: [
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    }
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
   ],
   winner: null,
   gridLock: false
@@ -51,12 +24,10 @@ const initialState = {
 export const MainReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.PLAYER_TURN: {
-      const { info } = action;
+      const { index } = action;
+      const { turn } = state
       let newState = clone(state);
-      newState.board[info.index].value = info.value;
-      info.value
-        ? (newState.board[info.index].uri = Player2Symbol)
-        : (newState.board[info.index].uri = Player1Symbol);
+      newState.board[index] = turn;      
       newState.turn ? (newState.turn = 0) : (newState.turn = 1);
       return newState;
     }

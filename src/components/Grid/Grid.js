@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import X from '../../assets/X.png'
-import O from '../../assets/O.png'
+import X from "../../assets/X.png";
+import O from "../../assets/O.png";
 
 const Grid = styled.TouchableOpacity`
   width: 33.33%;
@@ -17,7 +17,12 @@ const Icon = styled.Image`
 `;
 
 const GridComponent = props => (
-  <Grid activeOpacity={props.activeOpacity} onPress={() => {props.onPress(props.index)}}>
+  <Grid
+    {...props}
+    onPress={() => {
+      props.onPress(props.index);
+    }}
+  >
     <Icon source={props.value === null ? null : props.value ? X : O} />
   </Grid>
 );
