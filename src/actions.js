@@ -1,83 +1,43 @@
 import _ from "lodash";
-
+import {
+  checkVertical,
+  checkHorizontal,
+  checkDiagonal,
+  SquareRoot,
+  checkForGridlock
+} from "./util";
 export const TOGGLE_TURN = "TOGGLE_TURN";
 export const PLAYER_TURN = "PLAYER_TURN";
 export const X_WIN = "X_WIN";
 export const O_WIN = "O_WIN";
-export const GRID_LOCK = "GRID_LOCK"
-export const RESET_STATE = 'RESET_STATE'
+export const GRID_LOCK = "GRID_LOCK";
+export const RESET_STATE = "RESET_STATE";
 
-export const playerTurn = (index) => {
-  return (dispatch) => {
+export const handlePlayerAction = index => {
+  return (dispatch, getState) => {
     dispatch({ type: PLAYER_TURN, index });
-    dispatch(parseCombinations());
+    const currentState = getState();
+    if (currentState.moveCount > 4)
+      dispatch(checkForWinner(index, currentState.board));
   };
 };
 
-export const parseCombinations = () => {
-  return (dispatch, getState) => {    
-    let state = getState();
-    let board = state.board;
-    let length = Math.sqrt(board.length);
-    // Total winning combinations: (length * 2) + 2
-
-    // Parse Vertical Array's
-    let verticalArrays = _.chunk(board, length);
-    // Parse Horizontal Array's
-    let horizontalArrays = [];
-    for (let i = 0; i < verticalArrays.length; i++) {
-      horizontalArrays.push([]);
-      for (let j = 0; j < verticalArrays[i].length; j++) {
-        horizontalArrays[i].push(verticalArrays[j][i]);
-      }
-    }
-    // Parse diagonal arrays
-    let topLeft = [];
-    let topRight = [];
-    for (let i = 0; i < horizontalArrays.length; i++) {
-      topLeft.push(horizontalArrays[i][i]);
-      topRight.push(horizontalArrays[length - 1 - i][i]);
-    }
-    let Diagonal = [topLeft, topRight];
-    let combinations = _.concat(verticalArrays, horizontalArrays, Diagonal);
-    dispatch(checkWinner(combinations));
+const checkForWinner = (index, board) => {
+  return dispatch => {
+    SquareRoot(board.length);
+    if (
+      checkDiagonal(board) ||
+      checkHorizontal(index, board) ||
+      checkVertical(index, board)
+    )
+      dispatch({ type: board[index] ? X_WIN : O_WIN });
+    else if (checkForGridlock(board))
+      dispatch({type: GRID_LOCK})
   };
 };
 
-export const checkWinner = combinations => {
-  return (dispatch) => {
-    let arrays = [];
-    for (let i = 0; i < combinations.length; i++) {
-      let tempArray = _.map(combinations[i], n => {
-        if (n !== null) {
-          return n;
-        } else {
-          return -10;
-        }
-      });      
-      arrays.push(tempArray);
-    }
-    for (let i = 0; i < arrays.length; i++) {          
-      if (_.sum(arrays[i]) === 0){
-        dispatch({type: O_WIN})
-        return
-      } else if (_.sum(arrays[i]) === 3){
-        dispatch({type: X_WIN})
-        return
-      }
-    }
-    let allPos = true
-    for (let i = 0; i < arrays.length; i++) {          
-      if (_.sum(arrays[i]) < 0){
-        allPos = false
-      }
-    }
-    if (allPos) dispatch({type: GRID_LOCK})
+export const resetState = () => {
+  return dispatch => {
+    dispatch({ type: RESET_STATE });
   };
 };
-
-export const resetState =() => {
-  return (dispatch) => {
-    dispatch({type: RESET_STATE})
-  }  
-}

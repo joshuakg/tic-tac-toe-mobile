@@ -75,7 +75,7 @@ class Board extends React.Component {
   dispatchPlayerAction = index => {
     const { turn, dispatch, board } = this.props;
     if (board[index] !== null) return;
-    dispatch(Actions.playerTurn(index, turn));
+    dispatch(Actions.handlePlayerAction(index, turn));
   };
 }
 

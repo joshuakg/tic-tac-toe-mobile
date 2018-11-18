@@ -18,7 +18,8 @@ const initialState = {
     null
   ],
   winner: null,
-  gridLock: false
+  gridLock: false,
+  moveCount: 0
 };
 
 export const MainReducer = (state = initialState, action) => {
@@ -27,7 +28,8 @@ export const MainReducer = (state = initialState, action) => {
       const { index } = action;
       const { turn } = state
       let newState = clone(state);
-      newState.board[index] = turn;      
+      newState.board[index] = turn;    
+      newState.moveCount++  
       newState.turn ? (newState.turn = 0) : (newState.turn = 1);
       return newState;
     }
