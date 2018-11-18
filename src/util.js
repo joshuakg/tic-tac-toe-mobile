@@ -33,11 +33,7 @@ export const checkHorizontal = (index, board) => {
   }
 
   // Create row array
-  let array = _.slice(
-    board,
-    [(start = rowIndex * sqrt)],
-    [(end = rowIndex * sqrt + 3)]
-  );
+  let array = _.slice(board, rowIndex * sqrt, (rowIndex * sqrt) + 3);
 
   // Check array for any null values
   if (_.includes(array, null)) return false;
@@ -64,15 +60,14 @@ export const checkDiagonal = board => {
   }
 
   // Check array for any null values
-  if (_.includes(topRight, null) && _.includes(topLeft, null)) return false;
-  if (
-    !_.sum(topLeft) ||
-    !_.sum(topRight) ||
-    _.eq(_.sum(topLeft), sqrt) ||
-    _.eq(_.sum(topRight), sqrt)
-  )
-    return true;
-
+  if (!_.includes(topRight, null)) {
+    if (!_.sum(topRight)) return true;
+    if (_.eq(_.sum(topRight), sqrt)) return true;
+  }
+  if (!_.includes(topLeft, null)) {
+    if (!_.sum(topLeft)) return true;
+    if (_.eq(_.sum(topLeft), sqrt)) return true;
+  }
   return false;
 };
 
