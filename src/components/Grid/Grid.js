@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
 import X from "../../assets/X.png";
 import O from "../../assets/O.png";

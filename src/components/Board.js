@@ -5,7 +5,7 @@ import * as Actions from "../actions";
 import { connect } from "react-redux";
 import Grid from "./Grid/Grid";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const Container = styled.View`
   width: ${width - width / 10};
