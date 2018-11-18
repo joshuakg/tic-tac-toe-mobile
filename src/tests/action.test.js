@@ -117,8 +117,8 @@ describe("Action Tests", () => {
   });
 
   // test("Check for correct possible combinations parsing", () => {
-    // store.dispatch(actions.parseCombinations())
-    // console.log(store.getActions())
-    // expect(store.getActions()).toEqual(expectedActions)
+  //   store.dispatch(actions.parseCombinations())
+  //   console.log(store.getActions())
+  //   expect(store.getActions()).toEqual(expectedActions)
   // })
 });
