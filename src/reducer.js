@@ -4,7 +4,7 @@ import { returnGrid } from './util';
 
 const initialState = {
   turn: 0,
-  board: returnGrid(3,3),
+  board: returnGrid(3),
   winner: null,
   gridLock: false,
   moveCount: 0

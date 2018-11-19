@@ -1,10 +1,11 @@
 import _ from "lodash";
 
-export const returnGrid = (rowCount, columnCount) => {
+// Returns grid
+export const returnGrid = (size) => {
   let grid = [];
-  for (let i = 0; i < rowCount; i++) {
+  for (let i = 0; i < size; i++) {
     let array = [];
-    for (let j = 0; j < columnCount; j++) {
+    for (let j = 0; j < size; j++) {
       array.push(null);
     }
     grid.push(array);
@@ -12,6 +13,8 @@ export const returnGrid = (rowCount, columnCount) => {
   return grid;
 };
 
+// checkVertical takes the cordinates of the last move preformed by a player and
+// checks the column for a winning combination.
 export const checkVertical = (cord, board) => {
   let array = [];
   for (let i = 0; i < board.length; i++) {
@@ -22,6 +25,9 @@ export const checkVertical = (cord, board) => {
   if (_.sum(array) === board.length) return true;
   return false;
 };
+
+// checkHorizontal takes the cordinates of the last move preformed by a player and
+// checks the row for a winning combination.
 export const checkHorizontal = (cord, board) => {
   let array = [];
   for (let i = 0; i < board.length; i++) {
@@ -32,6 +38,9 @@ export const checkHorizontal = (cord, board) => {
   if (_.sum(array) === board.length) return true;
   return false;
 };
+
+// checkDiagonal checks the didagonal combinations from 
+// top left, to bottom right and top right to bottom left
 export const checkDiagonal = board => {
   let topLeft = [],
     topRight = [];

@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Board from "./Board";
 import { connect } from "react-redux";
 import * as Actions from '../actions'
-import { createGrid } from '../util';
 
 const { width, height } = Dimensions.get("window");
 
@@ -18,7 +17,6 @@ const Container = styled.View`
   align-items: center;
 `;
 const TopMessageContainer = styled.View`
-  ${"" /* height: 30%; */}
   width: ${width};
   display: flex;
   justify-content: center;
@@ -29,7 +27,6 @@ const Message = styled.Text`
   font-weight: 600;
   color: #1d3133;
   opacity: 0.8;
-  ${"" /* margin-top: 20%; */}
 `;
 
 const RestartButton = styled.TouchableOpacity`
@@ -41,7 +38,6 @@ const RestartButton = styled.TouchableOpacity`
   display: flex;
   justify-content: center;
   align-items: center;
-  ${"" /* margin-top: 20%; */}
 `;
 
 const ButtonPlaceHolder = styled.View`
