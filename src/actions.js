@@ -3,7 +3,6 @@ import {
   checkVertical,
   checkHorizontal,
   checkDiagonal,
-  SquareRoot,
   checkForGridlock
 } from "./util";
 export const TOGGLE_TURN = "TOGGLE_TURN";
@@ -12,27 +11,30 @@ export const X_WIN = "X_WIN";
 export const O_WIN = "O_WIN";
 export const GRID_LOCK = "GRID_LOCK";
 export const RESET_STATE = "RESET_STATE";
+export const CREATE_GRID = "CREATE_GRID";
 
-export const handlePlayerAction = index => {
+export const handlePlayerAction = (x, y) => {
   return (dispatch, getState) => {
-    dispatch({ type: PLAYER_TURN, index });
+    let cord = {
+      x: x,
+      y: y
+    };
+    dispatch({ type: PLAYER_TURN, cord });
     const currentState = getState();
     if (currentState.moveCount > 4)
-      dispatch(checkForWinner(index, currentState.board));
+      dispatch(checkForWinner(cord, currentState.board));
   };
 };
 
-const checkForWinner = (index, board) => {
+const checkForWinner = (cord, board) => {
   return dispatch => {
-    SquareRoot(board.length);
     if (
       checkDiagonal(board) ||
-      checkHorizontal(index, board) ||
-      checkVertical(index, board)
+      checkHorizontal(cord, board) ||
+      checkVertical(cord, board)
     )
-      dispatch({ type: board[index] ? X_WIN : O_WIN });
-    else if (checkForGridlock(board))
-      dispatch({type: GRID_LOCK})
+      dispatch({ type: board[cord.y][cord.x] ? X_WIN : O_WIN });
+    else if (checkForGridlock(board)) dispatch({ type: GRID_LOCK });
   };
 };
 

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components";
 import Board from "./Board";
 import { connect } from "react-redux";
 import * as Actions from '../actions'
+import { createGrid } from '../util';
 
 const { width, height } = Dimensions.get("window");
 
@@ -54,7 +55,7 @@ const Restart = styled.Text`
   font-weight: 600;
 `;
 
-class Home extends React.Component {
+class Home extends Component {
   render() {
     return (
       <Container>

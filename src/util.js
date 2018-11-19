@@ -1,77 +1,58 @@
 import _ from "lodash";
-let sqrt;
 
-export const SquareRoot = length => {
-  sqrt = Math.sqrt(length);
+export const returnGrid = (rowCount, columnCount) => {
+  let grid = [];
+  for (let i = 0; i < rowCount; i++) {
+    let array = [];
+    for (let j = 0; j < columnCount; j++) {
+      array.push(null);
+    }
+    grid.push(array);
+  }
+  return grid;
 };
 
-export const checkVertical = (index, board) => {
-  let columnIndex = index % sqrt, // Find column index
-    array = [];
-
-  // Create column array
-  for (let i = 0; i < sqrt; i++) {
-    array.push(board[columnIndex + sqrt * i]);
+export const checkVertical = (cord, board) => {
+  let array = [];
+  for (let i = 0; i < board.length; i++) {
+    array.push(board[i][cord.x]);
   }
-
-  // Check array for any null values
   if (_.includes(array, null)) return false;
-
-  // Check if column contains winning values
-  if (!_.sum(array) || _.eq(_.sum(array), sqrt)) return true;
+  if (_.sum(array) === 0) return true;
+  if (_.sum(array) === board.length) return true;
   return false;
 };
-
-export const checkHorizontal = (index, board) => {
-  let rowIndex = 0,
-    tempValue = index;
-
-  // Find row index
-  while (tempValue - sqrt > -1) {
-    tempValue -= sqrt;
-    rowIndex++;
+export const checkHorizontal = (cord, board) => {
+  let array = [];
+  for (let i = 0; i < board.length; i++) {
+    array.push(board[cord.y][i]);
   }
-
-  // Create row array
-  let array = _.slice(board, rowIndex * sqrt, (rowIndex * sqrt) + 3);
-
-  // Check array for any null values
   if (_.includes(array, null)) return false;
-
-  // Check if row contains winning values
-  if (!_.sum(array) || _.eq(_.sum(array), sqrt)) return true;
-
+  if (_.sum(array) === 0) return true;
+  if (_.sum(array) === board.length) return true;
   return false;
 };
-
 export const checkDiagonal = board => {
   let topLeft = [],
-    topLeftStep = sqrt + 1,
-    topRight = [],
-    topRightStep = sqrt - 1;
-
-  // Create diagonal array starting from top left to bottom right
-  for (let i = 0; i < board.length; i = i + topLeftStep) {
-    topLeft.push(board[i]);
-  }
-  // Create diagonal array starting from top right to bottom left
-  for (let i = sqrt - 1; i <= board.length - sqrt; i = i + topRightStep) {
-    topRight.push(board[i]);
+    topRight = [];
+  for (let i = 0; i < board.length; i++) {
+    topLeft.push(board[i][i]);
+    topRight.push(board[Math.abs(i - (board.length - 1))][i]);
   }
 
-  // Check array for any null values
-  if (!_.includes(topRight, null)) {
-    if (!_.sum(topRight)) return true;
-    if (_.eq(_.sum(topRight), sqrt)) return true;
-  }
   if (!_.includes(topLeft, null)) {
-    if (!_.sum(topLeft)) return true;
-    if (_.eq(_.sum(topLeft), sqrt)) return true;
+    if (_.sum(topLeft) === 0) return true;
+    if (_.sum(topLeft) === board.length) return true;
+  }
+  if (!_.includes(topRight, null)) {
+    if (_.sum(topRight) === 0) return true;
+    if (_.sum(topRight) === board.length) return true;
   }
   return false;
 };
 
 export const checkForGridlock = board => {
-  if (_.includes(board, null)) return false;
+  let array = _.flatten(board);
+  if (_.includes(array, null)) return false;
   return true;
 };

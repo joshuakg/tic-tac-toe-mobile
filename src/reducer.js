@@ -1,19 +1,10 @@
 import * as actions from "./actions.js";
 import _ from "lodash";
+import { returnGrid } from './util';
 
 const initialState = {
   turn: 0,
-  board: [
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null
-  ],
+  board: returnGrid(3,3),
   winner: null,
   gridLock: false,
   moveCount: 0
@@ -22,10 +13,10 @@ const initialState = {
 export const MainReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.PLAYER_TURN: {
-      const { index } = action;
+      const { x, y } = action.cord;
       const { turn } = state
       let newState = clone(state);
-      newState.board[index] = turn;    
+      newState.board[y][x] = turn;    
       newState.moveCount++  
       newState.turn ? (newState.turn = 0) : (newState.turn = 1);
       return newState;
