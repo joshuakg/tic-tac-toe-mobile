@@ -20,9 +20,9 @@ const GridComponent = props => (
   <Grid
     {...props}
     onPress={() => {
-      props.onPress(props.index);
+      props.onPress(props.x, props.y);
     }}
-  >
+  >    
     <Icon source={props.value === null ? null : props.value ? X : O} />
   </Grid>
 );

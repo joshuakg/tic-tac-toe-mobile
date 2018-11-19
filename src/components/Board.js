@@ -54,15 +54,19 @@ class Board extends React.Component {
     return (
       <Container>
         {this.props.board.map((content, index) => {
-          return (
-            <Grid
-              onPress={this.dispatchPlayerAction}
-              activeOpacity={content === null ? 0 : 1}
-              key={index}
-              value={content}
-              index={index}
-            />
-          );
+          let y = index
+          return content.map((content, index) => {
+            return (
+              <Grid
+                onPress={this.dispatchPlayerAction}
+                activeOpacity={content === null ? 0 : 1}
+                key={index}
+                value={content}
+                y={y}      
+                x={index}          
+              />
+            );
+          });
         })}
         <LeftVertical />
         <RightVertical />
@@ -72,17 +76,17 @@ class Board extends React.Component {
     );
   }
 
-  dispatchPlayerAction = index => {
+  dispatchPlayerAction = (x, y) => {
     const { turn, dispatch, board } = this.props;
-    if (board[index] !== null) return;
-    dispatch(Actions.handlePlayerAction(index, turn));
+    if (board[y][x] !== null) return;
+    dispatch(Actions.handlePlayerAction(x, y));
   };
 }
 
 const stateToProps = state => {
   return {
     board: state.board,
-    turn: state.turn,
+    turn: state.turn
   };
 };
 
