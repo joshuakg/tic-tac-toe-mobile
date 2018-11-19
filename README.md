@@ -1,5 +1,5 @@
 # Tic-Tac-Toe Mobile
-Tic-Tac-Toe application for Shipt coding challenge. Built with React-Native and Android.
+Tic-Tac-Toe application for Shipt coding challenge. Built with React-Native and Expo.
 ## Instalation 
 To install Tic-Tac-Toe Mobile clone or download this repository and run
 ````
