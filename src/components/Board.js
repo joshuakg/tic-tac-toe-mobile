@@ -1,10 +1,11 @@
 import React from "react";
-import { Dimensions, Image, Text } from "react-native";
+import { Dimensions } from "react-native";
 import styled from "styled-components";
 import * as Actions from "../actions";
 import { connect } from "react-redux";
+import Grid from "./Grid/Grid";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const Container = styled.View`
   width: ${width - width / 10};
@@ -16,14 +17,6 @@ const Container = styled.View`
   align-items: center;
   flex-wrap: wrap;
   flex-direction: row;
-`;
-const Grid = styled.TouchableOpacity`
-  width: 33.33%;
-  height: 33.33%;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const Vertical = styled.View`
@@ -55,29 +48,25 @@ const TopHorizontal = styled(Horizontal)`
 const BottomHorizontal = styled(Horizontal)`
   bottom: 32%;
 `;
-const Icon = styled.Image`
-  width: 50%;
-  height: 50%;
-`;
 
 class Board extends React.Component {
   render() {
     return (
-      <Container>      
+      <Container>
         {this.props.board.map((content, index) => {
-          return (
-            <Grid
-              activeOpacity={content.value === null ? 0.5 : 1}
-              key={index}
-              onPress={() => {
-                this.props.winner === null ?
-                this.playerAction(content.uri, index)
-                : null
-              }}
-            >
-              <Icon source={content.uri} />
-            </Grid>
-          );
+          let y = index
+          return content.map((content, index) => {
+            return (
+              <Grid
+                onPress={this.dispatchPlayerAction}
+                activeOpacity={content === null ? 0 : 1}
+                key={index}
+                value={content}
+                y={y}      
+                x={index}          
+              />
+            );
+          });
         })}
         <LeftVertical />
         <RightVertical />
@@ -87,18 +76,17 @@ class Board extends React.Component {
     );
   }
 
-  playerAction = (uri, index) => {
-    const { turn, dispatch } = this.props;
-    if (uri !== null) return;
-    dispatch(Actions.playerTurn(index, turn));
+  dispatchPlayerAction = (x, y) => {
+    const { turn, dispatch, board } = this.props;
+    if (board[y][x] !== null) return;
+    dispatch(Actions.handlePlayerAction(x, y));
   };
 }
 
 const stateToProps = state => {
   return {
     board: state.board,
-    turn: state.turn,
-    winner: state.winner
+    turn: state.turn
   };
 };
 

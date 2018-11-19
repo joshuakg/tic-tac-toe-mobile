@@ -1,9 +1,8 @@
-import React from "react";
-import { Dimensions, View } from "react-native";
+import React, { Component } from "react";
+import { Dimensions } from "react-native";
 import styled from "styled-components";
 import Board from "./Board";
 import { connect } from "react-redux";
-import restart from "../assets/restart.png";
 import * as Actions from '../actions'
 
 const { width, height } = Dimensions.get("window");
@@ -18,7 +17,6 @@ const Container = styled.View`
   align-items: center;
 `;
 const TopMessageContainer = styled.View`
-  ${"" /* height: 30%; */}
   width: ${width};
   display: flex;
   justify-content: center;
@@ -29,7 +27,6 @@ const Message = styled.Text`
   font-weight: 600;
   color: #1d3133;
   opacity: 0.8;
-  ${"" /* margin-top: 20%; */}
 `;
 
 const RestartButton = styled.TouchableOpacity`
@@ -41,7 +38,6 @@ const RestartButton = styled.TouchableOpacity`
   display: flex;
   justify-content: center;
   align-items: center;
-  ${"" /* margin-top: 20%; */}
 `;
 
 const ButtonPlaceHolder = styled.View`
@@ -55,13 +51,12 @@ const Restart = styled.Text`
   font-weight: 600;
 `;
 
-class Home extends React.Component {
+class Home extends Component {
   render() {
     return (
       <Container>
         <TopMessageContainer>
           <Message>
-            {console.log(this.props.gridLock)}
             {this.props.gridLock
               ? "Whoops! Grid Lock!"
               : this.props.winner === null
@@ -73,10 +68,9 @@ class Home extends React.Component {
               : "O won"}
           </Message>
         </TopMessageContainer>
-        <Board />
-        
+        <Board />        
         {this.props.winner !== null || this.props.gridLock ? (
-          <RestartButton onPress={this.resetState} activeOpacity={0.5}>
+          <RestartButton onPress={this.handleStateReset} activeOpacity={0.5}>
             <Restart>new game</Restart>
           </RestartButton>
         ) : (
@@ -86,7 +80,7 @@ class Home extends React.Component {
     );
   }
 
-  resetState = () => {
+  handleStateReset = () => {
     this.props.dispatch(Actions.resetState())
   }
 

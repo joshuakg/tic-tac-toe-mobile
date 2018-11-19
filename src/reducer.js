@@ -1,62 +1,23 @@
 import * as actions from "./actions.js";
-import { Settings } from "react-native";
 import _ from "lodash";
-import Player1Symbol from "./assets/O.png";
-import Player2Symbol from "./assets/X.png";
+import { returnGrid } from './util';
 
 const initialState = {
   turn: 0,
-  board: [
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    },
-    {
-      value: null,
-      uri: null
-    }
-  ],
+  board: returnGrid(3),
   winner: null,
-  gridLock: false
+  gridLock: false,
+  moveCount: 0
 };
 
 export const MainReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.PLAYER_TURN: {
-      const { info } = action;
+      const { x, y } = action.cord;
+      const { turn } = state
       let newState = clone(state);
-      newState.board[info.index].value = info.value;
-      info.value
-        ? (newState.board[info.index].uri = Player2Symbol)
-        : (newState.board[info.index].uri = Player1Symbol);
+      newState.board[y][x] = turn;    
+      newState.moveCount++  
       newState.turn ? (newState.turn = 0) : (newState.turn = 1);
       return newState;
     }
@@ -73,7 +34,6 @@ export const MainReducer = (state = initialState, action) => {
     case actions.GRID_LOCK:{
       let newState = clone(state)
       newState.gridLock = true
-      console.log(newState)
       return newState
     }
     case actions.RESET_STATE: {
