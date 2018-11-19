@@ -3,8 +3,7 @@ import {
   checkVertical,
   checkHorizontal,
   checkDiagonal,
-  checkForGridlock,
-  returnGrid
+  checkForGridlock
 } from "./util";
 export const TOGGLE_TURN = "TOGGLE_TURN";
 export const PLAYER_TURN = "PLAYER_TURN";
