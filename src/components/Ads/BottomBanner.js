@@ -2,10 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Platform } from 'react-native'
 import {
-  AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded
+  AdMobBanner
 } from "expo";
 
 const Container = styled.View`
