@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, Platform } from "react-native";
 import styled from "styled-components";
 import * as Actions from "../actions";
 import { connect } from "react-redux";
@@ -8,8 +8,8 @@ import Grid from "./Grid/Grid";
 const { width } = Dimensions.get("window");
 
 const Container = styled.View`
-  width: ${width - width / 10};
-  height: ${width - width / 10};
+  width: ${props => props.isPad ? width - width / 2 : width - width / 10};
+  height: ${props => props.isPad ? width - width / 2 : width - width / 10};
   border-radius: 15px;
   position: relative;
   display: flex;
@@ -52,7 +52,7 @@ const BottomHorizontal = styled(Horizontal)`
 class Board extends React.Component {
   render() {
     return (
-      <Container>
+      <Container isPad={Platform.isPad}>
         {this.props.board.map((content, index) => {
           let y = index
           return content.map((content, index) => {

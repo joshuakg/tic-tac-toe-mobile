@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Board from "./Board";
 import { connect } from "react-redux";
 import * as Actions from '../actions'
-
+import { BottomBanner } from './Ads/BottomBanner';
 const { width, height } = Dimensions.get("window");
 
 const Container = styled.View`
@@ -33,6 +33,7 @@ const RestartButton = styled.TouchableOpacity`
   width: 35%;
   height: 7%;
   border-radius: 20px;
+  margin-bottom: 8px;
   background-color: #1d3133;
   opacity: 0.7;
   display: flex;
@@ -43,6 +44,7 @@ const RestartButton = styled.TouchableOpacity`
 const ButtonPlaceHolder = styled.View`
   width: 35%;
   height: 7%;
+  margin-bottom: 8px;
 `
 
 const Restart = styled.Text`
@@ -76,6 +78,7 @@ class Home extends Component {
         ) : (
           <ButtonPlaceHolder/>
         )}
+        <BottomBanner/>
       </Container>
     );
   }
