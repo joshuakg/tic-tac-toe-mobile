@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, SafeAreaView } from "react-native";
 import styled from "styled-components";
 import Board from "./Board";
 import { connect } from "react-redux";
-import * as Actions from '../actions'
+import * as Actions from "../actions";
+import { AdMobInterstitial } from "expo-ads-admob";
 
 const { width, height } = Dimensions.get("window");
 
 const Container = styled.View`
   width: ${width};
-  height: ${height};
+  height: 100%;
   background-color: #7acfd3;
   display: flex;
   justify-content: space-around;
@@ -30,60 +31,68 @@ const Message = styled.Text`
 `;
 
 const RestartButton = styled.TouchableOpacity`
-  width: 35%;
-  height: 7%;
-  border-radius: 20px;
+  border-radius: 10px;
   background-color: #1d3133;
-  opacity: 0.7;
+  opacity: ${props => (props.isVisible ? "0.7" : "0")};
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 16px;
 `;
-
-const ButtonPlaceHolder = styled.View`
-  width: 35%;
-  height: 7%;
-`
 
 const Restart = styled.Text`
   color: #fafafa;
   font-size: 20px;
   font-weight: 600;
+  padding-bottom: 2px;
 `;
 
 class Home extends Component {
+  handleStateReset = async () => {
+    try {
+      AdMobInterstitial.setAdUnitID("ca-app-pub-8371010681825945/3386608954");
+      await AdMobInterstitial.requestAdAsync();
+      await AdMobInterstitial.showAdAsync();
+      this.props.dispatch(Actions.resetState());
+    } catch (error) {
+      this.props.dispatch(Actions.resetState());
+    }
+  };
+
+  get isButtonHidden() {
+    return this.props.winner !== null || this.props.gridLock;
+  }
+
   render() {
     return (
-      <Container>
-        <TopMessageContainer>
-          <Message>
-            {this.props.gridLock
-              ? "Whoops! Grid Lock!"
-              : this.props.winner === null
-              ? this.props.turn
-                ? "X's turn"
-                : "O's turn"
-              : this.props.winner
-              ? "X won"
-              : "O won"}
-          </Message>
-        </TopMessageContainer>
-        <Board />        
-        {this.props.winner !== null || this.props.gridLock ? (
-          <RestartButton onPress={this.handleStateReset} activeOpacity={0.5}>
+      <SafeAreaView style={{ backgroundColor: "#7acfd3" }}>
+        <Container>
+          <TopMessageContainer>
+            <Message>
+              {this.props.gridLock
+                ? "Whoops! Grid Lock!"
+                : this.props.winner === null
+                ? this.props.turn
+                  ? "X's turn"
+                  : "O's turn"
+                : this.props.winner
+                ? "X won"
+                : "O won"}
+            </Message>
+          </TopMessageContainer>
+          <Board />
+          <RestartButton
+            disabled={!this.isButtonHidden}
+            isVisible={this.isButtonHidden}
+            onPress={this.handleStateReset}
+            activeOpacity={0.5}
+          >
             <Restart>new game</Restart>
           </RestartButton>
-        ) : (
-          <ButtonPlaceHolder/>
-        )}
-      </Container>
+        </Container>
+      </SafeAreaView>
     );
   }
-
-  handleStateReset = () => {
-    this.props.dispatch(Actions.resetState())
-  }
-
 }
 
 const stateToProps = state => {
